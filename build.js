@@ -8,4 +8,8 @@ esbuild.build({
     outfile: 'dist/server.js',
     minify: true,
     // sourcemap: true, // 可选：生成 source map 文件
-}).catch(() => process.exit(1));
+}).then(() => {
+    console.log('build success! node dist/server.js')
+}).catch(() => {
+    process.exit(1)
+});

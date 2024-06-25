@@ -1,8 +1,9 @@
 // src/server.ts
 import os from 'os'
-import Fastify from 'fastify'
-import httpProxy from 'http-proxy'
 import dotenv from 'dotenv'
+import fastify from 'fastify'
+import cors from '@fastify/cors'
+import httpProxy from 'http-proxy'
 
 // 加载环境变量
 dotenv.config()
@@ -12,19 +13,33 @@ const { PORT, CORS } = process.env
 // 获取网络接口列表
 const interfaces = os.networkInterfaces()
 
-const fastify = Fastify({
-  // 日志
-  // logger: true
-})
+const app = fastify({ logger: false })
 
 const proxy = httpProxy.createProxyServer({
-  // 目标域名
-  target: CORS,
+  target: CORS, // 目标域名
   changeOrigin: true,
 })
 
-fastify.all('*', (request, reply) => {
-  proxy.web(request.raw, reply.raw)
+// 注册并配置 @fastify/cors 插件
+app.register(cors, {
+  origin: '*', // 允许所有来源
+  methods: '*', // ['GET', 'POST', 'OPTIONS'] 允许的 HTTP 方法
+  allowedHeaders: '*', // ['Content-Type', 'Authorization'] 允许的请求头
+  credentials: true, // 是否允许发送 Cookie
+})
+
+// 代理所有请求
+// app.all('*', (request, reply) => {
+//   proxy.web(request.raw, reply.raw);
+// });
+
+// 代理除 OPTIONS 以外的所有请求
+app.route({
+  method: ['GET', 'POST'], // 根据需要添加更多的方法
+  url: '*',
+  handler: (request, reply) => {
+    proxy.web(request.raw, reply.raw)
+  },
 })
 
 proxy.on('error', (err, req, res) => {
@@ -61,9 +76,9 @@ const ipv6Set = () => {
 }
 const start = () => {
   try {
-    fastify.listen({ port: Number(PORT), host: '::' }).then(ipv6Set)
+    app.listen({ port: Number(PORT), host: '::' }).then(ipv6Set)
   } catch (err) {
-    fastify.log.error(err)
+    app.log.error(err)
     process.exit(1)
   }
 }
