@@ -4,6 +4,7 @@
   "scripts": {
     "start": "ts-node-dev --respawn --transpile-only src/server.ts",
     "build": "node build.js",
+    "preview": "node dist/server.js",
     "pnpm": "pnpm i"
   },
   "devDependencies": {
