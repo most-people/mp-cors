@@ -33,6 +33,12 @@ app.register(cors, {
 //   proxy.web(request.raw, reply.raw);
 // });
 
+// mock 强制修改请求方法
+app.addHook('onRequest', (request, reply, done) => {
+  request.raw.method = 'GET'
+  done()
+})
+
 // 代理除 OPTIONS 以外的所有请求
 app.route({
   method: ['GET', 'POST'], // 根据需要添加更多的方法
