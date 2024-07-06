@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "scripts": {
     "start": "ts-node-dev --respawn --transpile-only src/server.ts",
-    "build": "node build.js",
+    "build": "rm -rf dist && tsc",
     "preview": "node dist/server.js",
     "pnpm": "pnpm i"
   },
