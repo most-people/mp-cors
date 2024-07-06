@@ -10,19 +10,18 @@
   "devDependencies": {
     "@types/busboy": "^1.5.4",
     "@types/http-proxy": "^1.17.14",
-    "@types/node": "^20.14.8",
+    "@types/node": "^20.14.10",
     "dayjs": "^1.11.11",
     "ts-node": "^10.9.2",
     "ts-node-dev": "^2.0.0",
-    "typescript": "^5.5.2"
+    "typescript": "^5.5.3"
   },
   "dependencies": {
     "@fastify/cors": "^9.0.1",
     "@fastify/multipart": "^8.3.0",
     "@fastify/static": "^7.0.4",
     "dotenv": "^16.4.5",
-    "esbuild": "^0.21.5",
-    "fastify": "^4.28.0",
+    "fastify": "^4.28.1",
     "http-proxy": "^1.18.1"
   }
 }
